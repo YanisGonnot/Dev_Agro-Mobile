@@ -74,8 +74,10 @@ fun RegisterContent(loginState : MutableState<String>,
     ) {
         MyTitle(
             idText = R.string.new_account,
-            modifier = Modifier.padding(top = 80.dp)
+            modifier = Modifier.padding(top = 150.dp)
         )
+
+        Spacer(modifier = Modifier.padding(50.dp))
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
