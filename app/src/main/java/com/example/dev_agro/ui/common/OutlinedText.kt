@@ -16,11 +16,12 @@ data class OutlinedTextFieldsProps(
     val value: MutableState<String>,
     val placeholder: String,
     val modifier: Modifier,
+    val variant: String,
 )
 
 @Composable
 fun MyOutlinedTextField (props: OutlinedTextFieldsProps) {
-    return OutlinedTextField(
+    OutlinedTextField(
         value = props.value.value,
         onValueChange = {
             props.value.value = it
@@ -35,6 +36,6 @@ fun MyOutlinedTextField (props: OutlinedTextFieldsProps) {
             focusedContainerColor = Green400,
             unfocusedContainerColor = Green200,
         ),
-        modifier = props.modifier
+        modifier = props.modifier,
     )
 }
