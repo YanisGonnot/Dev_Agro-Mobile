@@ -7,6 +7,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dev_agro.logic.SplashViewModel
+import com.example.dev_agro.ui.screens.splash.SplashScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

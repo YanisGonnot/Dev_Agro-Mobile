@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,9 +17,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.R
+import com.example.dev_agro.logic.SplashViewModel
+import com.example.dev_agro.ui.theme.DevAgro
 import com.example.dev_agro.utils.APP_NAME
 
 
+@Composable
 fun SplashScreen(navController: NavController, viewModel: SplashViewModel){
     SplashView()
 
@@ -28,14 +32,15 @@ fun SplashScreen(navController: NavController, viewModel: SplashViewModel){
                 Screen.Dashboard.route
             else {
                 Screen.Login.route
-                navController.navigate(destination) {
-                    popUpTo(Screen.Splash.route) {
-                        inclusive = true
-                    }
+            }
+            navController.navigate(destination) {
+                popUpTo(Screen.Splash.route) {
+                    inclusive = true
                 }
             }
         }
     }
+
     LaunchedEffect(Unit) {
         viewModel.navigateAfterDelay()
     }
@@ -47,7 +52,7 @@ fun SplashScreen(navController: NavController, viewModel: SplashViewModel){
 fun SplashView(){
     Column(
         modifier = Modifier
-            .background(BlueFeedArticles)
+            .background(DevAgro)
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -64,7 +69,6 @@ fun SplashView(){
             fontSize = 30.sp
         )
     }
-
 }
 
 
