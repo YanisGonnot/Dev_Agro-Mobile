@@ -2,15 +2,21 @@ package com.example.dev_agro.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dev_agro.logic.LoginViewModel
+import com.example.dev_agro.logic.RegisterViewModel
 import com.example.dev_agro.logic.SplashViewModel
 import com.example.dev_agro.ui.screens.splash.SplashScreen
+import com.example.dev_agro.ui.screens.auth.LoginScreen
+import com.example.dev_agro.ui.screens.auth.RegisterScreen
+import com.example.dev_agro.ui.theme.Dev_AgroTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(){
     val navController = rememberNavController()
@@ -21,7 +27,7 @@ fun AppNavigation(){
             val splashViewModel : SplashViewModel = hiltViewModel()
             SplashScreen(navController, splashViewModel)
         }
-        /*
+
         composable(Screen.Login.route) {
             val loginViewModel : LoginViewModel = hiltViewModel()
             LoginScreen(navController, loginViewModel)
@@ -29,9 +35,9 @@ fun AppNavigation(){
 
         composable(Screen.Register.route) {
             val registerViewModel : RegisterViewModel = hiltViewModel()
-            RegisterScreen(navController, rregisterViewModel)
+            RegisterScreen(navController, registerViewModel)
         }
-
+        /*
         composable(Screen.Dashboard.route) {
             val dashboardViewModel : DashboardViewModel = hiltViewModel()
             DashboardScreen(navController, dashboardViewModel)
