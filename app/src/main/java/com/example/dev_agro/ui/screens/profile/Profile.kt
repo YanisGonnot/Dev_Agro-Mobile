@@ -21,7 +21,7 @@ import com.example.dev_agro.R
 import com.example.dev_agro.ui.common.LabeledField
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
-import com.example.dev_agro.ui.theme.GrayDark
+import com.example.dev_agro.ui.theme.GreyDark
 import com.example.dev_agro.ui.theme.Green200
 import com.example.dev_agro.ui.theme.Green300
 import com.example.dev_agro.ui.theme.Green400
@@ -144,7 +144,7 @@ fun ProfileContent(
             Text(
                 stringResource(R.string.personalize_experience),
                 style = MaterialTheme.typography.bodyMedium,
-                color = GrayDark.copy(alpha = 0.7f)
+                color = GreyDark.copy(alpha = 0.7f)
             )
 
             Spacer(Modifier.height(24.dp))

@@ -17,4 +17,6 @@ val Green400 = Color(129, 199, 132)
 val Green700 = Color(56, 142, 60)
 
 val OffWhite = Color(242, 240, 239)
-val GrayDark = Color(46, 46, 46)
+val GreyDark = Color(46, 46, 46)
+val GreyLight = Color(218, 218, 218)
+val Grey800 = Color(66, 66, 66)

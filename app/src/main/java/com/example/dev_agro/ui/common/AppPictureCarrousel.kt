@@ -27,6 +27,8 @@ import coil.compose.AsyncImage
 import android.net.Uri
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
+import com.example.dev_agro.ui.theme.GreyLight
+import com.example.dev_agro.ui.theme.Grey800
 
 
 data class CarouselPhoto(
@@ -34,10 +36,11 @@ data class CarouselPhoto(
     val uri: android.net.Uri
 )
 
-private val TileBg   = Color(0xFFDADADA)
+private val TileBg = GreyLight
 private val TileShape = RoundedCornerShape(20.dp)
 private val TileSize  = 140.dp
 
+@JvmOverloads
 @Composable
 fun TwoUpUploadCarousel(
     photos: List<CarouselPhoto>,
@@ -94,7 +97,7 @@ private fun TileComposable(
             Icon(
                 imageVector = Icons.Outlined.FileUpload,
                 contentDescription = "Upload",
-                tint = Color(0xFF424242)
+                tint = Grey800
             )
         }
 
