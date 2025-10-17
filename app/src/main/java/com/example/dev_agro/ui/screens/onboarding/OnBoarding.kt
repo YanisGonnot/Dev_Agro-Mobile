@@ -14,14 +14,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dev_agro.R
-
-private val AppPrimary = Color(0xFF204D34)
+import com.example.dev_agro.ui.theme.Grey600
+import com.example.dev_agro.ui.theme.GreenNature
 
 data class OnBoardingCard(
     val title: String,
@@ -94,7 +95,7 @@ private fun OnBoardingContent(
             text = card.underTitle,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF8A8A8A),
+            color = Grey600,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth()
         )
@@ -115,7 +116,7 @@ private fun OnBoardingContent(
         DotsIndicator(
             selectedIndex = index,
             count = total,
-            activeColor = AppPrimary
+            activeColor = GreenNature
         )
 
         Spacer(Modifier.weight(1f))
@@ -127,11 +128,13 @@ private fun OnBoardingContent(
                 .height(56.dp),
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = AppPrimary,
+                containerColor = GreenNature,
                 contentColor = Color.White
             )
         ) {
-            Text(if (index == total - 1) "Commencer" else "Suivant",
+            Text(
+                text = if (index == total - 1) stringResource(R.string.begin)
+                    else stringResource(R.string.nextstep),
                 fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
         }
     }

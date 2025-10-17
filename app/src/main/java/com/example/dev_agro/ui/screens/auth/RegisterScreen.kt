@@ -85,7 +85,8 @@ fun RegisterContent(login : MutableState<String>,
             OutlinedTextFieldsProps(
                 value = login,
                 placeholder = stringResource(R.string.login),
-                variant = "TEXT"
+                variant = "TEXT",
+                modifier = Modifier
             )
         )
 
@@ -95,7 +96,8 @@ fun RegisterContent(login : MutableState<String>,
             OutlinedTextFieldsProps(
                 value = password,
                 placeholder = stringResource(R.string.password),
-                variant = "PASSWORD"
+                variant = "PASSWORD",
+                modifier = Modifier
             )
         )
 
@@ -105,7 +107,8 @@ fun RegisterContent(login : MutableState<String>,
             OutlinedTextFieldsProps(
                 value = confirmPassword,
                 placeholder = stringResource(R.string.confirm_password),
-                variant = "PASSWORD"
+                variant = "PASSWORD",
+                modifier = Modifier
             )
         )
 

@@ -18,20 +18,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dev_agro.R
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
 import com.example.dev_agro.ui.common.TwoUpUploadCarousel
 import com.example.dev_agro.ui.common.CarouselPhoto
+import com.example.dev_agro.ui.theme.Green700
+import com.example.dev_agro.ui.theme.Green900
+import com.example.dev_agro.ui.theme.Grey
+import com.example.dev_agro.ui.theme.OffWhite
 
 @Composable fun Farm() { /* reserved for VM + nav later */ }
 
-private val OffWhite = Color(0xFFF2F0EF)
-private val Green700 = Color(0xFF388E3C)
 private val LabelColor = Color(0xFF1B5E20)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,10 +44,10 @@ fun FarmContent(
     onNext: (location: String, description: String, photos: List<CarouselPhoto>) -> Unit = { _, _, _ -> },
     onGenerateWithAI: () -> Unit = {}
 ) {
-    var location by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
+    var location = remember { mutableStateOf("") }
+    var description = remember { mutableStateOf("") }
     val photos = remember { mutableStateListOf<CarouselPhoto>() }
-    val canContinue = location.isNotBlank() && description.isNotBlank()
+    val canContinue = location.value.isNotBlank() && description.value.isNotBlank()
 
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -71,10 +75,26 @@ fun FarmContent(
                     containerColor = OffWhite,
                     titleContentColor = Color.Black
                 ),
-                title = { Text("Ma ferme", fontSize = 30.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                title = {
+                    Text(
+                        stringResource(R.string.my_farm),
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 actions = {
-                    TextButton(onClick = { onNext(location, description, photos) }, enabled = canContinue) {
-                        Text("Next", fontWeight = FontWeight.SemiBold, color = Green700, fontSize = 25.sp)
+                    TextButton(
+                        onClick = { onNext(location.value, description.value, photos) },
+                        enabled = canContinue)
+                    {
+                        Text(
+                            stringResource(R.string.nextstep),
+                            fontWeight = FontWeight.SemiBold,
+                            color = Green700,
+                            fontSize = 25.sp
+                        )
                     }
                 }
             )
@@ -97,19 +117,28 @@ fun FarmContent(
             )
 
             SectionSpacer()
-            LabeledField(label = "Location") {
+
+            LabeledField(label = stringResource(R.string.location)) {
                 MyOutlinedTextField(
                     OutlinedTextFieldsProps(
                         value = location,
-                        onChange = { location = it }
+                        placeholder = stringResource(R.string.location),
+                        modifier = Modifier.fillMaxWidth(),
+                        variant = "TEXT"
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
+
                 )
             }
 
             SectionSpacer()
-            Text("Description", fontSize = 22.sp, fontWeight = FontWeight.Black, color = Color(0xFF1B5E20), modifier = Modifier.padding(horizontal = 20.dp))
+
+            Text(
+                stringResource(R.string.description),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Black,
+                color = Green900,
+                modifier = Modifier.padding(horizontal = 20.dp)
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,13 +146,22 @@ fun FarmContent(
                     .clickable { onGenerateWithAI() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Generer avec l’ia", fontWeight = FontWeight.SemiBold, color = Color(0xFF7A7371), modifier = Modifier.clickable(onClick = {}))
-                Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = Color(0xFF7A7371))
+                Text(
+                    stringResource(R.string.generate_by_ia),
+                    fontWeight = FontWeight.SemiBold,
+                    color = Grey,
+                    modifier = Modifier.clickable(onClick = {})
+                )
+                Icon(
+                    Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                    tint = Grey
+                )
             }
 
             OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
+                value = description.value,
+                onValueChange = { description.value = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)

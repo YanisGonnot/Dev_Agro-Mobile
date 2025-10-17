@@ -80,7 +80,8 @@ fun LoginContent(loginState : MutableState<String>,
             OutlinedTextFieldsProps(
                 value = loginState,
                 placeholder = stringResource(R.string.login),
-                variant = "TEXT"
+                variant = "TEXT",
+                modifier = Modifier
             )
         )
 
@@ -90,7 +91,8 @@ fun LoginContent(loginState : MutableState<String>,
             OutlinedTextFieldsProps(
                 value = passwordState,
                 placeholder = stringResource(R.string.password),
-                variant = "PASSWORD"
+                variant = "PASSWORD",
+                modifier = Modifier
             )
         )
 
