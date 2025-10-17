@@ -98,16 +98,16 @@ fun ProfileContent(
                     .padding(20.dp)
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    LabeledField(label = "Name") {
+                    LabeledField(label = stringResource(R.string.firstname)) {
                         MyOutlinedTextField(OutlinedTextFieldsProps(value = name, onChange = { name = it }))
                     }
-                    LabeledField(label = "Password") {
+                    LabeledField(label = stringResource(R.string.lastname)) {
                         MyOutlinedTextField(OutlinedTextFieldsProps(value = lastName, onChange = { lastName = it }))
                     }
-                    LabeledField(label = "Email") {
+                    LabeledField(label = stringResource(R.string.email)) {
                         MyOutlinedTextField(OutlinedTextFieldsProps(value = email, onChange = { email = it }))
                     }
-                    LabeledField(label = "Phone") {
+                    LabeledField(label = stringResource(R.string.phone)) {
                         MyOutlinedTextField(OutlinedTextFieldsProps(value = phone, onChange = { phone = it }))
                     }
                 }

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Dev_Agro</string>
 
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone Number</string>
+
     <string name="profile_title">Profile</string>
     <string name="personalize_experience">We’ll use this info to personalize your experience.</string>
     <string name="continue_step">Continue</string>
