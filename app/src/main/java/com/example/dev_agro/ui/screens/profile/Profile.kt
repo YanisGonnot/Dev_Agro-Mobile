@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,11 +37,11 @@ fun Profile() { /* reserved for VM + nav later */ }
 fun ProfileContent(
     onNext: (name: String, lastName: String, email: String, phone: String) -> Unit = { _, _, _, _ -> }
 ) {
-    var name by rememberSaveable { mutableStateOf("") }
-    var lastName by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var phone by rememberSaveable { mutableStateOf("") }
-    val canContinue = name.isNotBlank() && lastName.isNotBlank() && email.isNotBlank()
+    var name = remember { mutableStateOf("") }
+    var lastName = remember { mutableStateOf("") }
+    var email = remember { mutableStateOf("") }
+    var phone = remember { mutableStateOf("") }
+    val canContinue = name.value.isNotBlank() && lastName.value.isNotBlank() && email.value.isNotBlank()
 
     Scaffold(
         containerColor = GreenBg,
@@ -62,7 +61,7 @@ fun ProfileContent(
                 actions = {
                     TextButton(
                         enabled = canContinue,
-                        onClick = { onNext(name, lastName, email, phone) }
+                        onClick = { onNext(name.value, lastName.value, email.value, phone.value) }
                     ) {
                         Text(
                             stringResource(R.string.nextstep),
@@ -80,7 +79,6 @@ fun ProfileContent(
                 .padding(inner)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .background(OffWhite)
                 .padding(top = 40.dp)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -99,16 +97,44 @@ fun ProfileContent(
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     LabeledField(label = stringResource(R.string.firstname)) {
-                        MyOutlinedTextField(OutlinedTextFieldsProps(value = name, onChange = { name = it }))
+                        MyOutlinedTextField(
+                            OutlinedTextFieldsProps(
+                                value = name,
+                                variant = "TEXT",
+                                placeholder = stringResource(R.string.firstname),
+                                modifier = Modifier,
+                            )
+                        )
                     }
                     LabeledField(label = stringResource(R.string.lastname)) {
-                        MyOutlinedTextField(OutlinedTextFieldsProps(value = lastName, onChange = { lastName = it }))
+                        MyOutlinedTextField(
+                            OutlinedTextFieldsProps(
+                                value = name,
+                                variant = "TEXT",
+                                placeholder = stringResource(R.string.lastname),
+                                modifier = Modifier,
+                            )
+                        )
                     }
                     LabeledField(label = stringResource(R.string.email)) {
-                        MyOutlinedTextField(OutlinedTextFieldsProps(value = email, onChange = { email = it }))
+                        MyOutlinedTextField(
+                            OutlinedTextFieldsProps(
+                                value = name,
+                                variant = "TEXT",
+                                placeholder = stringResource(R.string.email),
+                                modifier = Modifier,
+                            )
+                        )
                     }
                     LabeledField(label = stringResource(R.string.phone)) {
-                        MyOutlinedTextField(OutlinedTextFieldsProps(value = phone, onChange = { phone = it }))
+                        MyOutlinedTextField(
+                            OutlinedTextFieldsProps(
+                                value = name,
+                                variant = "TEXT",
+                                placeholder = stringResource(R.string.phone),
+                                modifier = Modifier,
+                            )
+                        )
                     }
                 }
             }
@@ -124,7 +150,7 @@ fun ProfileContent(
             Spacer(Modifier.height(24.dp))
 
             Button(
-                onClick = { onNext(name, lastName, email, phone) },
+                onClick = { onNext(name.value, lastName.value, email.value, phone.value) },
                 enabled = canContinue,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Green200,
