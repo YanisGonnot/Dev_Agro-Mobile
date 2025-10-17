@@ -13,22 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dev_agro.R
 import com.example.dev_agro.ui.common.LabeledField
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
+import com.example.dev_agro.ui.theme.GrayDark
+import com.example.dev_agro.ui.theme.Green200
+import com.example.dev_agro.ui.theme.Green300
+import com.example.dev_agro.ui.theme.Green400
+import com.example.dev_agro.ui.theme.Green700
+import com.example.dev_agro.ui.theme.GreenBg
+import com.example.dev_agro.ui.theme.OffWhite
 
 @Composable
 fun Profile() { /* reserved for VM + nav later */ }
-
-private val GreenBg     = Color(0xFFF1F8E9)
-private val Green200    = Color(0xFFC8E6C9)
-private val Green300    = Color(0xFFA5D6A7)
-private val Green400    = Color(0xFF81C784)
-private val Green700    = Color(0xFF388E3C)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,8 +43,6 @@ fun ProfileContent(
     var email by rememberSaveable { mutableStateOf("") }
     var phone by rememberSaveable { mutableStateOf("") }
     val canContinue = name.isNotBlank() && lastName.isNotBlank() && email.isNotBlank()
-    val OffWhite = Color(0xFFF2F0EF)
-
 
     Scaffold(
         containerColor = GreenBg,
@@ -51,12 +52,25 @@ fun ProfileContent(
                     containerColor = OffWhite,
                     titleContentColor = Color.Black,
                 ),
-                title = { Text("Profile", fontSize = 22.sp, fontWeight = FontWeight.Bold) },
+                title = {
+                    Text(
+                    stringResource(R.string.profile_title),
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                    )
+                },
                 actions = {
                     TextButton(
                         enabled = canContinue,
                         onClick = { onNext(name, lastName, email, phone) }
-                    ) { Text("Next", fontWeight = FontWeight.SemiBold, color = Green700, fontSize = 25.sp) }
+                    ) {
+                        Text(
+                            stringResource(R.string.nextstep),
+                            fontWeight = FontWeight.SemiBold,
+                            color = Green700,
+                            fontSize = 25.sp
+                        )
+                    }
                 }
             )
         }
@@ -66,7 +80,7 @@ fun ProfileContent(
                 .padding(inner)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .background(Color(0xFFF2F0EF))
+                .background(OffWhite)
                 .padding(top = 40.dp)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -102,9 +116,9 @@ fun ProfileContent(
             Spacer(Modifier.height(18.dp))
 
             Text(
-                "We’ll use this info to personalize your experience.",
+                stringResource(R.string.personalize_experience),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF2E2E2E).copy(alpha = 0.7f)
+                color = GrayDark.copy(alpha = 0.7f)
             )
 
             Spacer(Modifier.height(24.dp))
@@ -123,7 +137,11 @@ fun ProfileContent(
                     .fillMaxWidth()
                     .height(52.dp)
             ) {
-                Text("Continue", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    stringResource(R.string.continue_step),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
 
             Spacer(Modifier.height(16.dp))

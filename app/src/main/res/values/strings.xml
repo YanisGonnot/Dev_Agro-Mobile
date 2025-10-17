@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Dev_Agro</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="personalize_experience">We’ll use this info to personalize your experience.</string>
+    <string name="continue_step">Continue</string>
+
+    <string name="nextstep">Next</string>
+
 </resources>
