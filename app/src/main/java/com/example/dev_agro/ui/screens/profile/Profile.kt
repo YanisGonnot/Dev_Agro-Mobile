@@ -51,7 +51,7 @@ fun ProfileContent(
                     containerColor = OffWhite,
                     titleContentColor = Color.Black,
                 ),
-                title = { Text("Profile", fontSize = 22.sp, fontWeight = FontWeight.Bold) },
+                title = { Text("Profile", fontSize = 30.sp, fontWeight = FontWeight.Bold) },
                 actions = {
                     TextButton(
                         enabled = canContinue,
