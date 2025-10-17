@@ -1,6 +1,7 @@
 package com.example.dev_agro.ui.common
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -11,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.example.dev_agro.ui.theme.Green200
 import com.example.dev_agro.ui.theme.Green400
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 
 data class OutlinedTextFieldsProps(
     val value: MutableState<String>,
@@ -37,5 +39,10 @@ fun MyOutlinedTextField (props: OutlinedTextFieldsProps) {
             unfocusedContainerColor = Green200,
         ),
         modifier = props.modifier,
+        keyboardOptions = KeyboardOptions(
+            keyboardType =
+                if (props.variant === "PASSWORD") KeyboardType.Password
+                else KeyboardType.Text
+        )
     )
 }
