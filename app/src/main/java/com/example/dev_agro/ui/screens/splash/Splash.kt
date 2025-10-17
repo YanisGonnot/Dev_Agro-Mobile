@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.R
 import com.example.dev_agro.logic.SplashViewModel
-import com.example.dev_agro.ui.theme.DevAgro
+import com.example.dev_agro.ui.theme.GreenBg
 import com.example.dev_agro.utils.APP_NAME
 
 
@@ -52,7 +52,7 @@ fun SplashScreen(navController: NavController, viewModel: SplashViewModel){
 fun SplashView(){
     Column(
         modifier = Modifier
-            .background(DevAgro)
+            .background(GreenBg)
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
