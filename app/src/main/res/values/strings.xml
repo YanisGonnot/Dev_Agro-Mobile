@@ -21,4 +21,9 @@
     <string name="new_account">New Account</string>
     <string name="to_register">To Register</string>
     <string name="confirm_password">Confirmation Password</string>
+
+    <string name="nextstep">next</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="my_products">My Product</string>
+
 </resources>
