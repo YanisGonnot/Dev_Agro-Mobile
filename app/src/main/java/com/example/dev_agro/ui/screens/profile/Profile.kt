@@ -53,9 +53,9 @@ fun ProfileContent(
                 ),
                 title = {
                     Text(
-                    stringResource(R.string.profile_title),
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                        stringResource(R.string.profile_title),
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 actions = {
