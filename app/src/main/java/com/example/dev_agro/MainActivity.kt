@@ -13,8 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
 import androidx.compose.material3.Surface
 import com.example.dev_agro.navigation.AppNavigation
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
