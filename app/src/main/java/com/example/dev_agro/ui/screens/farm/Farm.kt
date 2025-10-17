@@ -1,20 +1,153 @@
 package com.example.dev_agro.ui.screens.farm
 
-import androidx.compose.runtime.Composable
+import android.os.Build
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.dev_agro.ui.screens.profile.ProfileContent
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.dev_agro.ui.common.MyOutlinedTextField
+import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
+import com.example.dev_agro.ui.common.TwoUpUploadCarousel
+import com.example.dev_agro.ui.common.CarouselPhoto
 
-@Composable()
-fun Farm() {
+@Composable fun Farm() { /* reserved for VM + nav later */ }
+
+private val OffWhite = Color(0xFFF2F0EF)
+private val Green700 = Color(0xFF388E3C)
+private val LabelColor = Color(0xFF1B5E20)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FarmContent(
+    onNext: (location: String, description: String, photos: List<CarouselPhoto>) -> Unit = { _, _, _ -> },
+    onGenerateWithAI: () -> Unit = {}
+) {
+    var location by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    val photos = remember { mutableStateListOf<CarouselPhoto>() }
+    val canContinue = location.isNotBlank() && description.isNotBlank()
+
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) photos.add(0, CarouselPhoto(uri = uri))
+    }
+    val getContent = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) photos.add(0, CarouselPhoto(uri = uri))
+    }
+    val launchPicker = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        } else {
+            getContent.launch("image/*")
+        }
+    }
+
+    Scaffold(
+        containerColor = OffWhite,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = OffWhite,
+                    titleContentColor = Color.Black
+                ),
+                title = { Text("Ma ferme", fontSize = 30.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                actions = {
+                    TextButton(onClick = { onNext(location, description, photos) }, enabled = canContinue) {
+                        Text("Next", fontWeight = FontWeight.SemiBold, color = Green700, fontSize = 25.sp)
+                    }
+                }
+            )
+        }
+    ) { inner ->
+        Column(
+            modifier = Modifier
+                .padding(inner)
+                .fillMaxSize()
+                .background(OffWhite)
+                .verticalScroll(rememberScrollState())
+        ) {
+            TwoUpUploadCarousel(
+                photos = photos,
+                onUploadClick = launchPicker,
+                onPhotoClick = { /* preview */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)
+            )
+
+            SectionSpacer()
+            LabeledField(label = "Location") {
+                MyOutlinedTextField(
+                    OutlinedTextFieldsProps(
+                        value = location,
+                        onChange = { location = it }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+
+            SectionSpacer()
+            Text("Description", fontSize = 22.sp, fontWeight = FontWeight.Black, color = Color(0xFF1B5E20), modifier = Modifier.padding(horizontal = 20.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 8.dp)
+                    .clickable { onGenerateWithAI() },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Generer avec l’ia", fontWeight = FontWeight.SemiBold, color = Color(0xFF7A7371), modifier = Modifier.clickable(onClick = {}))
+                Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = Color(0xFF7A7371))
+            }
+
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .heightIn(min = 200.dp),
+                singleLine = false,
+                minLines = 5,
+                shape = MaterialTheme.shapes.large
+            )
+
+            Spacer(Modifier.height(28.dp))
+        }
+    }
 }
 
-@Composable()
-fun FarmContent() {
-
+@Composable
+private fun LabeledField(label: String, content: @Composable () -> Unit) {
+    Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
+        Text(label, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp, color = LabelColor)
+        Spacer(Modifier.height(8.dp))
+        content()
+    }
 }
+
+@Composable private fun SectionSpacer() = Spacer(Modifier.height(24.dp))
 
 @Preview(showBackground = true)
-@Composable
-fun FarmPreview(){
-    ProfileContent()
-}
+@Composable fun FarmPreview() { FarmContent() }
