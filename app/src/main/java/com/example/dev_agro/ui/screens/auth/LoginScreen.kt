@@ -1,12 +1,9 @@
 package com.example.dev_agro.ui.screens.auth
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
@@ -38,10 +35,8 @@ import com.example.dev_agro.ui.theme.Green700
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
     val context = LocalContext.current
-    val loginState = remember { mutableStateOf("") }
-    val passwordState = remember { mutableStateOf("") }
-
-
+    val login = remember { mutableStateOf("" ) }
+    val password = remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.messageToShowSharedFloat.collect {
@@ -52,8 +47,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
     }
 
     LoginContent(
-        loginState = loginState,
-        passwordState = passwordState,
+        loginState = login,
+        passwordState = password,
         onValidate = { login, password ->
             viewModel.checkFormAndLogin(login, password)
         },
@@ -83,8 +78,8 @@ fun LoginContent(loginState : MutableState<String>,
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
-                text = loginState,
-                idPlaceholder = R.string.login,
+                value = loginState,
+                placeholder = stringResource(R.string.login),
                 variant = "TEXT"
             )
         )
@@ -93,8 +88,8 @@ fun LoginContent(loginState : MutableState<String>,
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
-                text = passwordState,
-                idPlaceholder = R.string.password,
+                value = passwordState,
+                placeholder = stringResource(R.string.password),
                 variant = "PASSWORD"
             )
         )
@@ -129,8 +124,8 @@ fun LoginContent(loginState : MutableState<String>,
 fun LoginPreview() {
     Dev_AgroTheme {
         LoginContent(
-            loginState = remember { mutableStateOf("") },
-            passwordState = remember { mutableStateOf("") },
+            loginState = remember { mutableStateOf("" ) } ,
+            passwordState = remember { mutableStateOf("" ) },
             onValidate = {_, _ -> },
             goToRegister = {}
         )

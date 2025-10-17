@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,9 +35,9 @@ import com.example.dev_agro.utils.monToast
 @Composable
 fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel){
     val context = LocalContext.current
-    val loginState = remember { mutableStateOf("") }
-    val passwordState = remember { mutableStateOf("") }
-    val confirmPasswordState = remember { mutableStateOf("") }
+    val login = remember { mutableStateOf("" ) }
+    val password = remember { mutableStateOf("" ) }
+    val confirmPassword = remember { mutableStateOf("" ) }
 
 
 
@@ -52,9 +54,9 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel){
     }
 
     RegisterContent(
-        loginState = loginState,
-        passwordState = passwordState,
-        confirmPassword = confirmPasswordState,
+        login = login,
+        password = password,
+        confirmPassword = confirmPassword,
         goToMain = { username, password, password2 ->
             viewModel.checkFormAndRegister(username, password, password2)
         }
@@ -64,8 +66,8 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel){
 
 
 @Composable
-fun RegisterContent(loginState : MutableState<String>,
-                    passwordState : MutableState<String>,
+fun RegisterContent(login : MutableState<String>,
+                    password : MutableState<String>,
                     confirmPassword : MutableState<String>,
                     goToMain : (String, String, String) -> Unit) {
     Column(
@@ -81,8 +83,8 @@ fun RegisterContent(loginState : MutableState<String>,
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
-                text = loginState,
-                idPlaceholder = R.string.login,
+                value = login,
+                placeholder = stringResource(R.string.login),
                 variant = "TEXT"
             )
         )
@@ -91,8 +93,8 @@ fun RegisterContent(loginState : MutableState<String>,
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
-                text = passwordState,
-                idPlaceholder = R.string.password,
+                value = password,
+                placeholder = stringResource(R.string.password),
                 variant = "PASSWORD"
             )
         )
@@ -101,15 +103,15 @@ fun RegisterContent(loginState : MutableState<String>,
 
         MyOutlinedTextField(
             OutlinedTextFieldsProps(
-                text = confirmPassword,
-                idPlaceholder = R.string.confirm_password,
+                value = confirmPassword,
+                placeholder = stringResource(R.string.confirm_password),
                 variant = "PASSWORD"
             )
         )
 
         Button(
             onClick = {
-                goToMain.invoke(loginState.value, passwordState.value, confirmPassword.value)
+                goToMain.invoke(login.value, password.value, confirmPassword.value)
             },
             modifier = Modifier
                 .padding(top = 150.dp),
@@ -130,9 +132,9 @@ fun RegisterContent(loginState : MutableState<String>,
 fun RegisterPreview() {
     Dev_AgroTheme {
         RegisterContent(
-            loginState = remember { mutableStateOf("") },
-            passwordState = remember { mutableStateOf("") },
-            confirmPassword = remember { mutableStateOf("") },
+            login = remember { mutableStateOf("" ) },
+            password = remember { mutableStateOf("" ) },
+            confirmPassword = remember { mutableStateOf("" ) },
             goToMain = { _,_,_ -> }
         )
 
