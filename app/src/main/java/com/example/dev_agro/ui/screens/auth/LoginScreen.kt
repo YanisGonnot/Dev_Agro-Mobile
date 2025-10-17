@@ -28,12 +28,12 @@ import com.example.dev_agro.R
 import com.example.dev_agro.logic.LoginViewModel
 import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.MyOutlinedTextField
-import com.example.dev_agro.ui.theme.DevAgro
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
 import com.example.dev_agro.utils.MESSAGE_WELCOME
 import com.example.dev_agro.utils.monToast
 import  com.example.dev_agro.ui.common.MyTitle
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
+import com.example.dev_agro.ui.theme.Green700
 
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
@@ -72,9 +72,7 @@ fun LoginContent(loginState : MutableState<String>,
                  goToRegister : () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(DevAgro)
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         MyTitle(
             idText = R.string.login,
@@ -112,10 +110,13 @@ fun LoginContent(loginState : MutableState<String>,
             modifier = Modifier
                 .padding(top = 150.dp),
             colors =  buttonColors(
-                containerColor = Color.White
+                containerColor = Green700
             )
         ) {
-            Text(text = stringResource(R.string.to_login))
+            Text(
+                text = stringResource(R.string.to_login),
+                color = Color.White
+            )
         }
     }
 

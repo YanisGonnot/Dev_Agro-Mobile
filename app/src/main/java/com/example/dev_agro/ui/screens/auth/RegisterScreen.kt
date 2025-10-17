@@ -25,8 +25,8 @@ import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.MyTitle
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
-import com.example.dev_agro.ui.theme.DevAgro
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
+import com.example.dev_agro.ui.theme.Green700
 import com.example.dev_agro.utils.MESSAGE_WELCOME
 import com.example.dev_agro.utils.monToast
 
@@ -114,7 +114,7 @@ fun RegisterContent(loginState : MutableState<String>,
             modifier = Modifier
                 .padding(top = 150.dp),
             colors =  ButtonDefaults.buttonColors(
-                containerColor = DevAgro
+                containerColor = Green700
             )
         ) {
             Text(text = stringResource(id = R.string.to_register))
