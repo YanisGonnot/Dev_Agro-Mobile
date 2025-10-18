@@ -34,4 +34,6 @@
     <string name="info_product">Info Produits</string>
     <string name="product_name">Nom</string>
 
+    <string name="edit">Editer</string>
+
 </resources>
