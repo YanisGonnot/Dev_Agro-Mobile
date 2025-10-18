@@ -1,7 +1,5 @@
 package com.example.dev_agro.ui.screens.farm
 
-import android.os.Build
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,37 +30,75 @@ import com.example.dev_agro.ui.theme.Green700
 import com.example.dev_agro.ui.theme.Green900
 import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable fun FarmScreen(navController:NavController) {
-    FarmContent()
+
+    val vm: FarmViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+
+    FarmContent(
+        onNext = { location, description, photos ->
+            // TODO: call your backend to create Farm, then navigate
+            // navController.navigate(Screen.Whatever.route)
+        },
+        onGenerateWithAI = { ctx, photos, setDescription ->
+            vm.generateDescriptionFromFirstPhoto(
+                context = ctx,
+                photoUris = photos.map { it.uri },
+                onResult = setDescription
+            )
+        },
+        loadingFlow = vm.loading,
+        toastFlow = vm.toast
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FarmContent(
     onNext: (location: String, description: String, photos: List<CarouselPhoto>) -> Unit = { _, _, _ -> },
-    onGenerateWithAI: () -> Unit = {}
+    onGenerateWithAI: (context: android.content.Context, photos: List<CarouselPhoto>, setDescription: (String) -> Unit) -> Unit = { _, _, _ -> },
+    loadingFlow: StateFlow<Boolean>? = null,
+    toastFlow: StateFlow<String?>? = null
 ) {
-    var location = remember { mutableStateOf("") }
-    var description = remember { mutableStateOf("") }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val loading by (loadingFlow ?: MutableStateFlow(false)).collectAsState(initial = false)
+    val toast by (toastFlow ?: MutableStateFlow<String?>(null)).collectAsState(initial = null)
+
+    val location = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
     val photos = remember { mutableStateListOf<CarouselPhoto>() }
     val canContinue = location.value.isNotBlank() && description.value.isNotBlank()
 
+    // ✅ Restore the pickers
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
-    ) { uri: Uri? ->
+    ) { uri: android.net.Uri? ->
         if (uri != null) photos.add(0, CarouselPhoto(uri = uri))
     }
+
     val getContent = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
+    ) { uri: android.net.Uri? ->
         if (uri != null) photos.add(0, CarouselPhoto(uri = uri))
     }
-    val launchPicker = {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        } else {
-            getContent.launch("image/*")
+
+    val launchPicker = remember {
+        {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                photoPicker.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            } else {
+                getContent.launch("image/*")
+            }
+        }
+    }
+
+    LaunchedEffect(toast) {
+        toast?.let {
+            android.widget.Toast.makeText(context, it, android.widget.Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -77,18 +112,16 @@ fun FarmContent(
                 ),
                 title = {
                     Text(
-                        stringResource(R.string.my_farm),
+                        text = stringResource(R.string.my_farm),
                         fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        fontWeight = FontWeight.Bold
                     )
                 },
                 actions = {
                     TextButton(
                         onClick = { onNext(location.value, description.value, photos) },
-                        enabled = canContinue)
-                    {
+                        enabled = canContinue && !loading
+                    ) {
                         Text(
                             stringResource(R.string.nextstep),
                             fontWeight = FontWeight.SemiBold,
@@ -107,10 +140,11 @@ fun FarmContent(
                 .background(OffWhite)
                 .verticalScroll(rememberScrollState())
         ) {
+            // ✅ Upload tile now launches the picker
             TwoUpUploadCarousel(
                 photos = photos,
                 onUploadClick = launchPicker,
-                onPhotoClick = { /* preview */ },
+                onPhotoClick = { /* preview / delete if you want */ },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
@@ -126,7 +160,6 @@ fun FarmContent(
                         modifier = Modifier.fillMaxWidth(),
                         variant = "TEXT"
                     ),
-
                 )
             }
 
@@ -139,23 +172,31 @@ fun FarmContent(
                 color = Green900,
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 8.dp)
-                    .clickable { onGenerateWithAI() },
+                    .clickable(enabled = !loading) {
+                        onGenerateWithAI(context, photos) { generated ->
+                            description.value = generated
+                        }
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     stringResource(R.string.generate_by_ia),
                     fontWeight = FontWeight.SemiBold,
-                    color = Grey,
-                    modifier = Modifier.clickable(onClick = {})
+                    color = Grey
                 )
-                Icon(
-                    Icons.Rounded.ChevronRight,
-                    contentDescription = null,
-                    tint = Grey
+                Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = Grey)
+            }
+
+            if (loading) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
                 )
             }
 
@@ -175,6 +216,8 @@ fun FarmContent(
         }
     }
 }
+
+
 
 @Composable
 private fun LabeledField(label: String, content: @Composable () -> Unit) {

@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dev_agro.R
-import com.example.dev_agro.network.ApiInterface
 /*
 import com.example.dev_agro.utils.ASK_SAV
 import com.example.dev_agro.utils.CODE_200
