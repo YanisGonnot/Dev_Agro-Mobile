@@ -66,7 +66,8 @@ fun RegisterContent(login : MutableState<String>,
                 placeholder = stringResource(R.string.login),
                 variant = "TEXT",
                 modifier = Modifier
-            )
+            ),
+            isPassword = false
         )
 
         Spacer(modifier = Modifier.padding(20.dp))
@@ -77,7 +78,8 @@ fun RegisterContent(login : MutableState<String>,
                 placeholder = stringResource(R.string.password),
                 variant = "PASSWORD",
                 modifier = Modifier
-            )
+            ),
+            isPassword = true
         )
 
         Spacer(modifier = Modifier.padding(20.dp))
@@ -88,7 +90,8 @@ fun RegisterContent(login : MutableState<String>,
                 placeholder = stringResource(R.string.confirm_password),
                 variant = "PASSWORD",
                 modifier = Modifier
-            )
+            ),
+            isPassword = true
         )
 
         Button(

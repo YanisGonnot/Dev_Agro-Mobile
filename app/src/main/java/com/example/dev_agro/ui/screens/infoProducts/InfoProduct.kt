@@ -152,7 +152,8 @@ fun InfoProductContent(
                         placeholder = stringResource(R.string.product_name),
                         modifier = Modifier.fillMaxWidth(),
                         variant = "TEXT"
-                    )
+                    ),
+                   isPassword = false
                )
             }
 

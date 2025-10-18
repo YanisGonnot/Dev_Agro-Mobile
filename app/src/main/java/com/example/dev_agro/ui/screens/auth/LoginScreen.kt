@@ -81,8 +81,9 @@ fun LoginContent(loginState : MutableState<String>,
                 value = loginState,
                 placeholder = stringResource(R.string.login),
                 variant = "TEXT",
-                modifier = Modifier
-            )
+                modifier = Modifier,
+            ),
+            isPassword = false
         )
 
         Spacer(modifier = Modifier.padding(20.dp))
@@ -93,7 +94,8 @@ fun LoginContent(loginState : MutableState<String>,
                 placeholder = stringResource(R.string.password),
                 variant = "PASSWORD",
                 modifier = Modifier
-            )
+            ),
+            isPassword = true
         )
 
         TextButton(onClick = goToRegister){
