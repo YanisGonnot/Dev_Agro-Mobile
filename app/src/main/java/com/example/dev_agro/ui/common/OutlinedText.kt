@@ -13,6 +13,8 @@ import com.example.dev_agro.ui.theme.Green200
 import com.example.dev_agro.ui.theme.Green400
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 data class OutlinedTextFieldsProps(
     val value: MutableState<String>,
@@ -22,7 +24,7 @@ data class OutlinedTextFieldsProps(
 )
 
 @Composable
-fun MyOutlinedTextField (props: OutlinedTextFieldsProps) {
+fun MyOutlinedTextField (props: OutlinedTextFieldsProps, isPassword: Boolean) {
     OutlinedTextField(
         value = props.value.value,
         onValueChange = {
@@ -38,6 +40,7 @@ fun MyOutlinedTextField (props: OutlinedTextFieldsProps) {
             focusedContainerColor = Green400,
             unfocusedContainerColor = Green200,
         ),
+        visualTransformation = if (!isPassword) VisualTransformation.None else PasswordVisualTransformation(),
         modifier = props.modifier,
         keyboardOptions = KeyboardOptions(
             keyboardType =

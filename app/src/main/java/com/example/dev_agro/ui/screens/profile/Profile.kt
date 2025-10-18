@@ -114,7 +114,8 @@ fun ProfileContent(
                                 variant = "TEXT",
                                 placeholder = stringResource(R.string.firstname),
                                 modifier = Modifier,
-                            )
+                            ),
+                            isPassword = false
                         )
                     }
                     LabeledField(label = stringResource(R.string.lastname)) {
@@ -124,7 +125,8 @@ fun ProfileContent(
                                 variant = "TEXT",
                                 placeholder = stringResource(R.string.lastname),
                                 modifier = Modifier,
-                            )
+                            ),
+                            isPassword = false
                         )
                     }
                     LabeledField(label = stringResource(R.string.email)) {
@@ -134,7 +136,8 @@ fun ProfileContent(
                                 variant = "TEXT",
                                 placeholder = stringResource(R.string.email),
                                 modifier = Modifier,
-                            )
+                            ),
+                            isPassword = false
                         )
                     }
                     LabeledField(label = stringResource(R.string.phone)) {
@@ -144,7 +147,8 @@ fun ProfileContent(
                                 variant = "TEXT",
                                 placeholder = stringResource(R.string.phone),
                                 modifier = Modifier,
-                            )
+                            ),
+                            isPassword = false
                         )
                     }
                 }

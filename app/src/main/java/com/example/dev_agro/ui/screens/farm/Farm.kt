@@ -161,6 +161,7 @@ fun FarmContent(
                         modifier = Modifier.fillMaxWidth(),
                         variant = "TEXT"
                     ),
+                    isPassword = false
                 )
             }
 
