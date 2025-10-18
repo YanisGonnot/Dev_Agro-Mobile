@@ -13,7 +13,7 @@ import com.example.dev_agro.ui.theme.Green900
 @Composable
 fun LabeledField(label: String, field: @Composable () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(label, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Green900)
+        Text(label, fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Green900)
         field()
     }
 }

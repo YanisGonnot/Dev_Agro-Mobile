@@ -1,34 +1,37 @@
 <resources>
     <string name="app_name">Dev_Agro</string>
 
-    <string name="firstname">First Name</string>
-    <string name="lastname">Last Name</string>
+    <string name="firstname">Prénom</string>
+    <string name="lastname">Nom</string>
     <string name="email">Email</string>
-    <string name="phone">Phone Number</string>
+    <string name="phone">Numéro de téléphone</string>
 
     <string name="profile_title">Profile</string>
-    <string name="personalize_experience">We’ll use this info to personalize your experience.</string>
-    <string name="continue_step">Continue</string>
+    <string name="personalize_experience">Nous allons utiliser ces informations pour personaliser votre expérience</string>
+    <string name="continue_step">Continuer</string>
 
-    <string name="nextstep">Next</string>
-    <string name="begin">Begin</string>
+    <string name="nextstep">Suivant</string>
+    <string name="begin">Commencer</string>
 
-    <string name="register">Register</string>
-    <string name="login">Login</string>
-    <string name="password">Password</string>
-    <string name="to_login">To Login</string>
-    <string name="link_to_register">Any Account ? To register !</string>
+    <string name="register">Inscription</string>
+    <string name="login">Connexion</string>
+    <string name="password">Mot de passe</string>
+    <string name="to_login">Se Connecter</string>
+    <string name="link_to_register">Tu n\'as pas de compte ? Inscris-toi ici !</string>
 
-    <string name="new_account">New Account</string>
-    <string name="to_register">To Register</string>
-    <string name="confirm_password">Confirmation Password</string>
+    <string name="new_account">Nouveau compte</string>
+    <string name="to_register">S\'inscrire</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
 
-    <string name="add_photo">Add Photo</string>
-    <string name="my_products">My Product</string>
+    <string name="add_photo">Ajouter des Photos</string>
+    <string name="my_products">Mes Produits</string>
 
     <string name="location">Location</string>
-    <string name="my_farm">My farm</string>
+    <string name="my_farm">Ma ferme</string>
     <string name="description">Description</string>
-    <string name="generate_by_ia">Generate by AI</string>
+    <string name="generate_by_ia">Générer avec l\'IA</string>
+
+    <string name="info_product">Info Produits</string>
+    <string name="product_name">Nom</string>
 
 </resources>
