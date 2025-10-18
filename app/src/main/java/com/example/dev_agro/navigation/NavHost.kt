@@ -17,6 +17,7 @@ import com.example.dev_agro.ui.screens.farm.FarmScreen
 import com.example.dev_agro.ui.screens.infoProducts.InfoProductSreen
 import com.example.dev_agro.ui.screens.onboarding.OnBoardingScreen
 import com.example.dev_agro.ui.screens.profile.ProfileScreen
+import com.example.dev_agro.ui.screens.dashboard.DashboardScreen
 
 @Composable
 fun AppNavigation(){
@@ -51,15 +52,12 @@ fun AppNavigation(){
             InfoProductSreen(navController, )
         }
 
-        /*
+
         composable(Screen.Dashboard.route) {
-            DashboardContent(navController)
+            DashboardScreen(navController)
         }
-
-
-
+        /*
         composable(Screen.Product.route) {
-            val farmViewModel : ProductViewModel = hiltViewModel()
             ProductScreen(navController, farmViewModel)
         }
         */
