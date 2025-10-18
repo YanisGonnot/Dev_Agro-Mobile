@@ -27,5 +27,4 @@ class SplashViewModel @Inject constructor(val myPrefs : SharedPreferences): View
             )
         }
     }
-
 }

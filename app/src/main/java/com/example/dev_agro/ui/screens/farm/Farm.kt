@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.dev_agro.R
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
@@ -34,7 +34,9 @@ import com.example.dev_agro.ui.theme.Green900
 import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
 
-@Composable fun Farm() { /* reserved for VM + nav later */ }
+@Composable fun FarmScreen(navController:NavController) {
+    FarmContent()
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
