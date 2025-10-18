@@ -1,20 +1,37 @@
-package com.example.dev_agro.ui.screens.farm
+package com.example.dev_agro.ui.screens.infoProducts
 
-import android.os.Build
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,25 +41,41 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.dev_agro.R
+import com.example.dev_agro.logic.InfoProductViewModel
+import com.example.dev_agro.ui.common.CarouselPhoto
+import com.example.dev_agro.ui.common.LabeledField
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
 import com.example.dev_agro.ui.common.TwoUpUploadCarousel
-import com.example.dev_agro.ui.common.CarouselPhoto
+import com.example.dev_agro.ui.screens.auth.LoginContent
+import com.example.dev_agro.ui.screens.farm.SectionSpacer
+import com.example.dev_agro.ui.theme.Dev_AgroTheme
 import com.example.dev_agro.ui.theme.Green700
 import com.example.dev_agro.ui.theme.Green900
 import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
 
-@Composable fun Farm() { /* reserved for VM + nav later */ }
+@Composable()
+fun InfoProductSreen (navController: NavController, viewModel: InfoProductViewModel) {
+
+    InfoProductContent()
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FarmContent(
-    onNext: (location: String, description: String, photos: List<CarouselPhoto>) -> Unit = { _, _, _ -> },
+fun InfoProductContent(
+    onNext: (
+        location: String,
+        description: String,
+        productName: String,
+        photos: List<CarouselPhoto>
+    ) -> Unit = { _, _, _, _ -> },
     onGenerateWithAI: () -> Unit = {}
 ) {
     var location = remember { mutableStateOf("") }
+    var productName = remember { mutableStateOf("") }
     var description = remember { mutableStateOf("") }
     val photos = remember { mutableStateListOf<CarouselPhoto>() }
     val canContinue = location.value.isNotBlank() && description.value.isNotBlank()
@@ -75,16 +108,16 @@ fun FarmContent(
                 ),
                 title = {
                     Text(
-                        stringResource(R.string.my_farm),
+                        stringResource(R.string.info_product),
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 actions = {
                     TextButton(
-                        onClick = { onNext(location.value, description.value, photos) },
+                        onClick = { onNext(location.value, description.value, productName.value, photos) },
                         enabled = canContinue)
                     {
                         Text(
@@ -97,10 +130,10 @@ fun FarmContent(
                 }
             )
         }
-    ) { inner ->
+    ) { _ ->
         Column(
             modifier = Modifier
-                .padding(inner)
+                .padding(20.dp)
                 .fillMaxSize()
                 .background(OffWhite)
                 .verticalScroll(rememberScrollState())
@@ -116,16 +149,15 @@ fun FarmContent(
 
             SectionSpacer()
 
-            LabeledField(label = stringResource(R.string.location)) {
-                MyOutlinedTextField(
+            LabeledField(label = stringResource(R.string.product_name)) {
+               MyOutlinedTextField(
                     OutlinedTextFieldsProps(
-                        value = location,
-                        placeholder = stringResource(R.string.location),
+                        value = productName,
+                        placeholder = stringResource(R.string.product_name),
                         modifier = Modifier.fillMaxWidth(),
                         variant = "TEXT"
-                    ),
-
-                )
+                    )
+               )
             }
 
             SectionSpacer()
@@ -135,12 +167,11 @@ fun FarmContent(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Black,
                 color = Green900,
-                modifier = Modifier.padding(horizontal = 20.dp)
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 8.dp)
+                    .padding(vertical = 8.dp)
                     .clickable { onGenerateWithAI() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -174,17 +205,10 @@ fun FarmContent(
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-private fun LabeledField(label: String, content: @Composable () -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
-        Text(label, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp, color = Green900)
-        Spacer(Modifier.height(8.dp))
-        content()
+fun InfoProductPreview() {
+    Dev_AgroTheme {
+        InfoProductContent()
     }
 }
-
-@Composable
-fun SectionSpacer() = Spacer(Modifier.height(40.dp))
-
-@Preview(showBackground = true)
-@Composable fun FarmPreview() { FarmContent() }
