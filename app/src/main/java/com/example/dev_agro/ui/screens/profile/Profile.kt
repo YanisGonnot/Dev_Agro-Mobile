@@ -17,7 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.dev_agro.R
+import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.LabeledField
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
@@ -30,12 +32,21 @@ import com.example.dev_agro.ui.theme.GreenBg
 import com.example.dev_agro.ui.theme.OffWhite
 
 @Composable
-fun Profile() { /* reserved for VM + nav later */ }
+fun ProfileScreen(navController: NavController) {
+/* reserved for VM + nav later */
+    fun onNext(){
+        navController.navigate(Screen.Farm.route)
+    }
+
+    ProfileContent(
+        onNext = {onNext()}
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileContent(
-    onNext: (name: String, lastName: String, email: String, phone: String) -> Unit = { _, _, _, _ -> }
+    onNext: () -> Unit = { }
 ) {
     var name = remember { mutableStateOf("") }
     var lastName = remember { mutableStateOf("") }
@@ -61,7 +72,7 @@ fun ProfileContent(
                 actions = {
                     TextButton(
                         enabled = canContinue,
-                        onClick = { onNext(name.value, lastName.value, email.value, phone.value) }
+                        onClick = { onNext() }
                     ) {
                         Text(
                             stringResource(R.string.nextstep),
@@ -150,7 +161,7 @@ fun ProfileContent(
             Spacer(Modifier.height(24.dp))
 
             Button(
-                onClick = { onNext(name.value, lastName.value, email.value, phone.value) },
+                onClick = { onNext() },
                 enabled = canContinue,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Green200,

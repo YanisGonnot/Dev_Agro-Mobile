@@ -1,5 +1,4 @@
-// file: com/example/dev_agro/logic/FarmViewModel.kt
-package com.example.dev_agro.ui.screens.farm
+package com.example.dev_agro.logic
 
 import android.content.Context
 import android.net.Uri

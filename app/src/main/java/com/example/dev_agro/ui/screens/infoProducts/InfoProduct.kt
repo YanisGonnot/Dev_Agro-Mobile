@@ -43,13 +43,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.dev_agro.R
-import com.example.dev_agro.logic.InfoProductViewModel
+import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.CarouselPhoto
 import com.example.dev_agro.ui.common.LabeledField
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
 import com.example.dev_agro.ui.common.TwoUpUploadCarousel
-import com.example.dev_agro.ui.screens.auth.LoginContent
 import com.example.dev_agro.ui.screens.farm.SectionSpacer
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
 import com.example.dev_agro.ui.theme.Green700
@@ -58,20 +57,17 @@ import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
 
 @Composable()
-fun InfoProductSreen (navController: NavController, viewModel: InfoProductViewModel) {
-
-    InfoProductContent()
+fun InfoProductSreen (navController: NavController) {
+    fun onNext(){
+        navController.navigate(Screen.Dashboard.route)
+    }
+    InfoProductContent( onNext = {onNext()} )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InfoProductContent(
-    onNext: (
-        location: String,
-        description: String,
-        productName: String,
-        photos: List<CarouselPhoto>
-    ) -> Unit = { _, _, _, _ -> },
+    onNext: () -> Unit = {},
     onGenerateWithAI: () -> Unit = {}
 ) {
     var location = remember { mutableStateOf("") }
@@ -117,7 +113,7 @@ fun InfoProductContent(
                 },
                 actions = {
                     TextButton(
-                        onClick = { onNext(location.value, description.value, productName.value, photos) },
+                        onClick = { onNext() },
                         enabled = canContinue)
                     {
                         Text(

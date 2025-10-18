@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.dev_agro.R
+import com.example.dev_agro.logic.FarmViewModel
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
 import com.example.dev_agro.ui.common.TwoUpUploadCarousel
@@ -40,7 +41,7 @@ import kotlinx.coroutines.flow.StateFlow
     FarmContent(
         onNext = { location, description, photos ->
             // TODO: call your backend to create Farm, then navigate
-            // navController.navigate(Screen.Whatever.route)
+            navController.navigate(Screen.InfoProduct.route)
         },
         onGenerateWithAI = { ctx, photos, setDescription ->
             vm.generateDescriptionFromFirstPhoto(

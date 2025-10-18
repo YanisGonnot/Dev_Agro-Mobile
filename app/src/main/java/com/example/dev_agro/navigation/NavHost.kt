@@ -11,7 +11,9 @@ import com.example.dev_agro.ui.screens.splash.SplashScreen
 import com.example.dev_agro.ui.screens.auth.LoginScreen
 import com.example.dev_agro.ui.screens.auth.RegisterScreen
 import com.example.dev_agro.ui.screens.farm.FarmScreen
+import com.example.dev_agro.ui.screens.infoProducts.InfoProductSreen
 import com.example.dev_agro.ui.screens.onboarding.OnBoardingScreen
+import com.example.dev_agro.ui.screens.profile.ProfileScreen
 
 @Composable
 fun AppNavigation(){
@@ -29,33 +31,35 @@ fun AppNavigation(){
             LoginScreen(navController, loginViewModel)
         }
 
-        composable(Screen.Register.route) {
-            RegisterScreen(navController)
-        }
-
         composable(Screen.OnBoarding.route) {
             OnBoardingScreen(navController)
+        }
+
+        composable(Screen.Profile.route) {
+            //val profileViewModel : ProfileViewModel = hiltViewModel()
+            ProfileScreen(navController)
         }
 
         composable(Screen.Farm.route) {
             FarmScreen(navController)
         }
-        /*
-        composable(Screen.Dashboard.route) {
-            val dashboardViewModel : DashboardViewModel = hiltViewModel()
-            DashboardScreen(navController, dashboardViewModel)
+
+        composable(Screen.ProductInfo.route) {
+            InfoProductSreen(navController, )
         }
 
-        composable(Screen.Profile.route) {
-            val profileViewModel : ProfileViewModel = hiltViewModel()
-            ProfileScreen(navController, profileViewModel)
+        /*
+        composable(Screen.Dashboard.route) {
+            DashboardContent(navController)
         }
+
+
 
         composable(Screen.Product.route) {
             val farmViewModel : ProductViewModel = hiltViewModel()
             ProductScreen(navController, farmViewModel)
         }
-         */
+        */
     }
 }
 
