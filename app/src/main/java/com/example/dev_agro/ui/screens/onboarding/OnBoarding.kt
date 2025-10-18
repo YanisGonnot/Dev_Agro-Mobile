@@ -20,7 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.dev_agro.R
+import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.theme.Grey600
 import com.example.dev_agro.ui.theme.GreenNature
 
@@ -31,9 +33,7 @@ data class OnBoardingCard(
 )
 
 @Composable
-fun OnBoarding(
-    onFinish: () -> Unit
-) {
+fun OnBoardingScreen(navController: NavController) {
     val cards = remember {
         listOf(
             OnBoardingCard(
@@ -55,15 +55,17 @@ fun OnBoarding(
     }
 
     var index by rememberSaveable { mutableIntStateOf(0) }
-    val isLast = index == cards.lastIndex
+    val lastIndex = cards.lastIndex
 
     OnBoardingContent(
         card = cards[index],
         index = index,
         total = cards.size,
-        onNext = {
-            if (isLast) onFinish() else index++
-        },
+        onNext = { if (index < lastIndex) {
+            index++
+        } else {
+            navController.navigate(Screen.Farm.route)
+        }},
     )
 }
 
@@ -165,5 +167,7 @@ private fun DotsIndicator(
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingPreview() {
-    OnBoarding(onFinish = {})
+    OnBoardingScreen(
+        navController = TODO()
+    )
 }

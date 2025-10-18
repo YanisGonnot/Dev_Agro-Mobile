@@ -22,46 +22,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.dev_agro.R
-import com.example.dev_agro.logic.RegisterViewModel
 import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.MyOutlinedTextField
 import com.example.dev_agro.ui.common.MyTitle
 import com.example.dev_agro.ui.common.OutlinedTextFieldsProps
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
 import com.example.dev_agro.ui.theme.Green700
-import com.example.dev_agro.utils.MESSAGE_WELCOME
-import com.example.dev_agro.utils.monToast
 
 @Composable
-fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel){
-    val context = LocalContext.current
+fun RegisterScreen(navController: NavController){
     val login = remember { mutableStateOf("" ) }
     val password = remember { mutableStateOf("" ) }
     val confirmPassword = remember { mutableStateOf("" ) }
-
-
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.messageToShowSharedFloat.collect {
-            context.monToast(it)
-            if (it.contains(MESSAGE_WELCOME))
-                navController.navigate(Screen.Dashboard.route){
-                    popUpTo(Screen.Register.route){
-                        inclusive = true
-                    }
-                }
-        }
-    }
 
     RegisterContent(
         login = login,
         password = password,
         confirmPassword = confirmPassword,
-        goToMain = { username, password, password2 ->
-            viewModel.checkFormAndRegister(username, password, password2)
-        }
+        goToMain = { navController.navigate(Screen.OnBoarding.route) }
     )
-
 }
 
 
@@ -69,7 +48,7 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel){
 fun RegisterContent(login : MutableState<String>,
                     password : MutableState<String>,
                     confirmPassword : MutableState<String>,
-                    goToMain : (String, String, String) -> Unit) {
+                    goToMain : () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
@@ -113,9 +92,7 @@ fun RegisterContent(login : MutableState<String>,
         )
 
         Button(
-            onClick = {
-                goToMain.invoke(login.value, password.value, confirmPassword.value)
-            },
+            onClick = { goToMain() },
             modifier = Modifier
                 .padding(top = 150.dp),
             colors =  ButtonDefaults.buttonColors(
@@ -138,7 +115,7 @@ fun RegisterPreview() {
             login = remember { mutableStateOf("" ) },
             password = remember { mutableStateOf("" ) },
             confirmPassword = remember { mutableStateOf("" ) },
-            goToMain = { _,_,_ -> }
+            goToMain = { }
         )
 
     }

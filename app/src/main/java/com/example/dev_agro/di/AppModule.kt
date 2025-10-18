@@ -59,12 +59,4 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
-
-    /*
-    @Provides
-    @Singleton
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface {
-        return retrofit.create(ApiInterface::class.java)
-    }
-     */
 }

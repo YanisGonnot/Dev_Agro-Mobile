@@ -10,11 +10,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.dev_agro.logic.LoginViewModel
-import com.example.dev_agro.logic.RegisterViewModel
 import com.example.dev_agro.logic.SplashViewModel
 import com.example.dev_agro.ui.screens.splash.SplashScreen
 import com.example.dev_agro.ui.screens.auth.LoginScreen
 import com.example.dev_agro.ui.screens.auth.RegisterScreen
+import com.example.dev_agro.ui.screens.farm.FarmScreen
+import com.example.dev_agro.ui.screens.onboarding.OnBoardingScreen
 import com.example.dev_agro.ui.theme.Dev_AgroTheme
 
 @Composable
@@ -34,8 +35,15 @@ fun AppNavigation(){
         }
 
         composable(Screen.Register.route) {
-            val registerViewModel : RegisterViewModel = hiltViewModel()
-            RegisterScreen(navController, registerViewModel)
+            RegisterScreen(navController)
+        }
+
+        composable(Screen.OnBoarding.route) {
+            OnBoardingScreen(navController)
+        }
+
+        composable(Screen.Farm.route) {
+            FarmScreen(navController)
         }
         /*
         composable(Screen.Dashboard.route) {
@@ -66,4 +74,5 @@ sealed class Screen(val route : String){
     object Product : Screen ("Products")
     object ProductInfo : Screen("Info_Product")
     object MyFarm : Screen("MyFarm")
+    object OnBoarding: Screen("OnBoarding")
 }
