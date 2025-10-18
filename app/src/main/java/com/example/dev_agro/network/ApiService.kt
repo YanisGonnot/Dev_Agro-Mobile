@@ -1,4 +1,4 @@
-package com.example.dev_agro.logic.data.network.service
+package com.example.dev_agro.network
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,10 +1,6 @@
 package com.example.dev_agro.navigation
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,7 +12,6 @@ import com.example.dev_agro.ui.screens.auth.LoginScreen
 import com.example.dev_agro.ui.screens.auth.RegisterScreen
 import com.example.dev_agro.ui.screens.farm.FarmScreen
 import com.example.dev_agro.ui.screens.onboarding.OnBoardingScreen
-import com.example.dev_agro.ui.theme.Dev_AgroTheme
 
 @Composable
 fun AppNavigation(){
