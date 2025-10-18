@@ -59,7 +59,7 @@ fun SplashView(){
     )
     {
         Image(
-            painter = painterResource(id = R.drawable.logo_team),
+            painter = painterResource(id = R.drawable.logo_app),
             contentDescription = APP_NAME
         )
 

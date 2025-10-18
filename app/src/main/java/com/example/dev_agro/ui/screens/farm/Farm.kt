@@ -33,6 +33,7 @@ import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.example.dev_agro.navigation.Screen
 
 @Composable fun FarmScreen(navController:NavController) {
 
@@ -41,7 +42,7 @@ import kotlinx.coroutines.flow.StateFlow
     FarmContent(
         onNext = { location, description, photos ->
             // TODO: call your backend to create Farm, then navigate
-            navController.navigate(Screen.InfoProduct.route)
+            navController.navigate(Screen.ProductInfo.route)
         },
         onGenerateWithAI = { ctx, photos, setDescription ->
             vm.generateDescriptionFromFirstPhoto(

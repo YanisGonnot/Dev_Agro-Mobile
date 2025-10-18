@@ -53,7 +53,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel){
             viewModel.checkFormAndLogin(login, password)
         },
         goToRegister = {
-            navController.navigate(Screen.Register.route)
+            navController.navigate(Screen.OnBoarding.route)
         }
     )
 

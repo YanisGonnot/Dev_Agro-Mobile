@@ -13,7 +13,8 @@ interface AgentRepository {
         imageBytes: ByteArray,
         filename: String = "photo.jpg",
         mimeType: String = "image/jpeg"   // ✅ concrete MIME, not image/*
-    ): String}
+    ): String
+}
 
 @Singleton
 class AgentRepositoryImpl @Inject constructor(

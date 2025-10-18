@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.dev_agro.logic.InfoProductViewModel
 import com.example.dev_agro.logic.LoginViewModel
 import com.example.dev_agro.logic.SplashViewModel
 import com.example.dev_agro.ui.screens.splash.SplashScreen
@@ -49,7 +50,8 @@ fun AppNavigation(){
         }
 
         composable(Screen.ProductInfo.route) {
-            InfoProductSreen(navController, )
+            val viewModel: InfoProductViewModel = hiltViewModel()
+            InfoProductSreen(navController, viewModel)
         }
 
 

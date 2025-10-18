@@ -2,6 +2,7 @@ package com.example.dev_agro.ui.screens.infoProducts
 
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -29,6 +31,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.dev_agro.R
+import com.example.dev_agro.logic.InfoProductViewModel
 import com.example.dev_agro.navigation.Screen
 import com.example.dev_agro.ui.common.CarouselPhoto
 import com.example.dev_agro.ui.common.LabeledField
@@ -55,26 +61,53 @@ import com.example.dev_agro.ui.theme.Green700
 import com.example.dev_agro.ui.theme.Green900
 import com.example.dev_agro.ui.theme.Grey
 import com.example.dev_agro.ui.theme.OffWhite
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable()
-fun InfoProductSreen (navController: NavController) {
+fun InfoProductSreen (navController: NavController, viewModel: InfoProductViewModel) {
     fun onNext(){
         navController.navigate(Screen.Dashboard.route)
     }
-    InfoProductContent( onNext = {onNext()} )
+    InfoProductContent(
+        onNext = {onNext()},
+        onGenerateWithAI = { ctx, photos, setDescription ->
+            viewModel.generateDescriptionFromFirstPhoto(
+                context = ctx,
+                photoUris = photos.map { it.uri },
+                onResult = setDescription
+            )
+        },
+        loadingFlow = viewModel.loading,
+        toastFlow = viewModel.toast
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InfoProductContent(
     onNext: () -> Unit = {},
-    onGenerateWithAI: () -> Unit = {}
+    onGenerateWithAI: (
+        context: android.content.Context,
+        photos: List<CarouselPhoto>,
+        setDescription: (String) -> Unit) -> Unit = { _, _, _ -> },
+    loadingFlow: StateFlow<Boolean>? = null,
+    toastFlow: StateFlow<String?>? = null
 ) {
-    var location = remember { mutableStateOf("") }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val loading by (loadingFlow ?: MutableStateFlow(false)).collectAsState(initial = false)
+    val toast by (toastFlow ?: MutableStateFlow<String?>(null)).collectAsState(initial = null)
+
+    LaunchedEffect(toast) {
+        toast?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     var productName = remember { mutableStateOf("") }
     var description = remember { mutableStateOf("") }
     val photos = remember { mutableStateListOf<CarouselPhoto>() }
-    val canContinue = location.value.isNotBlank() && description.value.isNotBlank()
+    val canContinue = description.value.isNotBlank()
 
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -169,7 +202,11 @@ fun InfoProductContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .clickable { onGenerateWithAI() },
+                    .clickable(enabled = !loading) {
+                        onGenerateWithAI(context, photos) { generated ->
+                            description.value = generated
+                        }
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -182,6 +219,14 @@ fun InfoProductContent(
                     Icons.Rounded.ChevronRight,
                     contentDescription = null,
                     tint = Grey
+                )
+            }
+
+            if (loading) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
                 )
             }
 
